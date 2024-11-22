@@ -1,5 +1,5 @@
 import React , {useEffect , useState} from 'react'
-import { AnimatePresence , motion} from 'framer-motion'
+import { AnimatePresence , motion, useAnimate} from 'framer-motion'
 import { useSnapshot } from 'valtio'
 import config from '../config/config'
 import state from '../store'
@@ -13,6 +13,34 @@ import { AIPicker , ColorPicker , FilePicker , CustomButton , Tab  } from '../co
 
 const Customizer = () => {
   const snap = useSnapshot(state);
+
+  const [file , setFile] = useState('')
+  const [prompt , setPrompt] = useState('')
+  const [generatingImg, setGeneratingImg] = useState(false)
+  const [activeEditorTab, setActiveEditorTab] = useState('')
+  
+  const [activeFilterTab, setActiveFilterTab] = useState({
+    logoShirt: true,
+    stylishShirt: false,
+  })
+
+  //show tab content depending on the activeTab ....
+  const generateTabContent = () =>{
+    switch (activeEditorTab){
+      case "colorpicker":
+        return <ColorPicker/>
+      case "filepicker":
+        return <FilePicker
+          file={file}
+          setFile={setFile}
+        />
+      case "aipicker":
+        return <AIPicker/>
+      default:
+        return null;      
+    }
+
+  }
 
   return (
     <AnimatePresence>
@@ -30,10 +58,12 @@ const Customizer = () => {
                   <Tab
                     key={tab.name}
                     tab={tab}
-                    handleClick={()=>{}}
+                    handleClick={()=> setActiveEditorTab(tab.name)}
                     
                   />
                  ))}
+
+                 {generateTabContent()}
                </div>
 
             </div>
