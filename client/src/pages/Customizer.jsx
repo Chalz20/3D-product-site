@@ -36,12 +36,46 @@ const Customizer = () => {
           readFile={readFile}
         />
       case "aipicker":
-        return <AIPicker/>
+        return <AIPicker
+          prompt={prompt}
+          setPrompt={setPrompt}
+          generatingImg={generatingImg}
+          handleSubmit={handleSubmit}
+        />
       default:
         return null;      
     }
 
   }
+
+//handlesubmit when generating AI image ...
+const handleSubmit = async (type) => {
+  if(!prompt) return alert("Please enter a prompt");
+
+  try {
+    // call the backend to generate an AI image ..
+    setGeneratingImg(true);
+
+    const response = await fetch('http://localhost:8080/api/v1/dalle', {
+      method:'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({prompt})
+    })
+
+    const data = await response.json();
+
+    handleDecals(type, `data:image/png;base64,${data.photo}`)
+
+  } catch (error) {
+    alert(error)
+  } finally{
+    setGeneratingImg(false);
+    setActiveEditorTab("");
+  }
+}
+
  //Function to switch the logo and textures...
  const handleDecals = (type , result ) =>{
   const decalType = DecalTypes[type];
@@ -64,6 +98,14 @@ const Customizer = () => {
       state.isFullTexture = false;
       state.isLogoTexture = true;     
   }
+
+  //Updating the activeFilterTab after setting the state ...
+  setActiveFilterTab((prevState)=>{
+    return{
+      ...prevState,
+      [tabName]: !prevState[tabName]
+    }
+  })
  }
 
   //Function to read the uploaded file...
@@ -123,8 +165,8 @@ const Customizer = () => {
                     key={tab.name}
                     tab={tab}
                     isFilterTab
-                    isActiveTab=""
-                    handleClick={()=>{}}
+                    isActiveTab={activeEditorTab[tab.name]}
+                    handleClick={()=>handleActiveFilterTab(tab.name)}
                     
                   />
                  ))}
