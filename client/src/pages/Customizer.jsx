@@ -8,6 +8,7 @@ import { downloadCanvasToImage, reader } from '../config/helpers'
 import {EditorTabs , FilterTabs , DecalTypes } from '../config/constants'
 import { fadeAnimation, slideAnimation } from '../config/motion' 
 import { AIPicker , ColorPicker , FilePicker , CustomButton , Tab  } from '../components'
+import {Tooltip as ReactTooltip} from 'react-tooltip'
 
 
 
@@ -171,7 +172,27 @@ const handleSubmit = async (type) => {
                     
                   />
                  ))}
+
+           <button className='download-btn' onClick={downloadCanvasToImage} data-tooltip-id="tooltip"
+             data-tooltip-content="Download the shirt image">
+              <img
+                src={download}
+                alt='download_image'
+                className='w-3/5 h-3/5 object-contain'
+              />
+
+           <ReactTooltip
+              id="tooltip" 
+              place="top" 
+              type="dark" 
+              effect="solid" 
+            />
+            </button>
+
+           
            </motion.div>
+
+          
           </> 
         )}
     </AnimatePresence>
