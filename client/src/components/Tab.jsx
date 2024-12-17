@@ -25,7 +25,8 @@ const getTooltipContent = (tabName) => {
      case "stylishShirt":
        return "Toggle on/off the full shirt texture"
      default :
-      return null    
+      return null
+          
    }
 };
 
