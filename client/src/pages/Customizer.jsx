@@ -29,12 +29,15 @@ const Customizer = () => {
   const generateTabContent = () =>{
     switch (activeEditorTab){
       case "colorpicker":
-        return <ColorPicker/>
+        return <ColorPicker
+          closeEditorTab={closeEditorTab}
+        />
       case "filepicker":
         return <FilePicker
           file={file}
           setFile={setFile}
           readFile={readFile}
+          closeEditorTab={closeEditorTab}
         />
       case "aipicker":
         return <AIPicker
@@ -116,6 +119,10 @@ const handleSubmit = async (type) => {
       handleDecals(type,result);
       setActiveEditorTab("");
     })
+  }
+
+  const closeEditorTab = () => {
+    setActiveEditorTab("")
   }
 
   return (

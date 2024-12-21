@@ -29,7 +29,7 @@ export const Home = () => {
                 <motion.div className='home-content' {...headContainerAnimation}>
                    <motion.div {...headTextAnimation}>
                      <h1 className='head-text'>
-                        LET'S <br className='xl:block hidden'/> DO  IT.
+                        eXpress <br className='xl:block hidden'/> YoU.
                      </h1>
 
                    </motion.div>
